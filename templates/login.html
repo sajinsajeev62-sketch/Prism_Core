@@ -1,0 +1,130 @@
+<!-- blog/templates/login.html -->
+<!-- Pure Django - No JavaScript -->
+{% extends 'base.html' %}
+
+{% block title %}Login - BlogHub{% endblock %}
+
+{% block extra_css %}
+<style>
+    .auth-container {
+        max-width: 400px;
+        margin: 3rem auto;
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .auth-container h2 {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #333;
+    }
+
+    .auth-container form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        margin-bottom: 0.3rem;
+        color: #555;
+    }
+
+    .form-group input {
+        padding: 0.8rem;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .submit-btn {
+        padding: 0.8rem;
+        background: #667eea;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 0.5rem;
+    }
+
+    .submit-btn:hover {
+        background: #764ba2;
+    }
+
+    .auth-link {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: #666;
+    }
+
+    .auth-link a {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .auth-link a:hover {
+        text-decoration: underline;
+    }
+
+    .error-message {
+        background: #ffebee;
+        color: #c62828;
+        padding: 1rem;
+        border-radius: 5px;
+        margin-bottom: 1rem;
+    }
+
+    @media (max-width: 480px) {
+        .auth-container {
+            margin: 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <h2>Welcome Back 👋</h2>
+    <p style="text-align: center; color: #999; margin-bottom: 1.5rem;">Login to your account</p>
+
+    {% if error %}
+        <div class="error-message">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" required>
+        </div>
+
+        <button type="submit" class="submit-btn">Login</button>
+    </form>
+
+    <div class="auth-link">
+        Don't have an account? <a href="{% url 'register' %}">Sign up here</a>
+    </div>
+</div>
+{% endblock %}
