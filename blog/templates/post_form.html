@@ -1,0 +1,236 @@
+<!-- blog/templates/post_form.html -->
+<!-- Pure Django - No JavaScript -->
+{% extends 'base.html' %}
+
+{% block title %}{% if 'Create' in title %}Create{% else %}Edit{% endif %} Post - BlogHub{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-container {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .form-container h2 {
+        margin-bottom: 2rem;
+        color: #333;
+    }
+
+    .form-container form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: #555;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        padding: 0.8rem;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        font-family: inherit;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .form-group input[type="file"] {
+        padding: 0.5rem;
+    }
+
+    .form-group textarea {
+        resize: vertical;
+        min-height: 300px;
+        font-family: 'Courier New', monospace;
+    }
+
+    .form-group input[type="text"] {
+        font-size: 1.3rem;
+        font-weight: bold;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+    }
+
+    .form-actions button,
+    .form-actions a {
+        padding: 0.8rem 2rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        text-decoration: none;
+        transition: background 0.3s;
+    }
+
+    .form-actions button[type="submit"] {
+        background: #667eea;
+        color: white;
+    }
+
+    .form-actions button[type="submit"]:hover {
+        background: #764ba2;
+    }
+
+    .form-actions a {
+        background: #ddd;
+        color: #333;
+    }
+
+    .form-actions a:hover {
+        background: #ccc;
+    }
+
+    .form-errors {
+        background: #ffebee;
+        border: 1px solid #ef5350;
+        padding: 1rem;
+        border-radius: 5px;
+        margin-bottom: 1rem;
+        color: #c62828;
+    }
+
+    .form-errors ul {
+        margin: 0;
+        padding-left: 1.5rem;
+    }
+
+    .form-errors li {
+        margin-bottom: 0.5rem;
+    }
+
+    .help-text {
+        font-size: 0.9rem;
+        color: #999;
+        margin-top: 0.3rem;
+    }
+
+    @media (max-width: 768px) {
+        .form-container {
+            padding: 1rem;
+        }
+
+        .form-group textarea {
+            min-height: 200px;
+        }
+
+        .form-actions {
+            flex-direction: column;
+        }
+
+        .form-actions button,
+        .form-actions a {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>{{ title }}</h2>
+
+    {% if form.non_field_errors %}
+        <div class="form-errors">
+            <ul>
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Title Field -->
+        <div class="form-group">
+            <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+            {{ form.title }}
+            {% if form.title.errors %}
+                <div class="form-errors">
+                    <ul>
+                        {% for error in form.title.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            <small class="help-text">Make it catchy and descriptive</small>
+        </div>
+
+        <!-- Content Field -->
+        <div class="form-group">
+            <label for="{{ form.content.id_for_label }}">{{ form.content.label }}</label>
+            {{ form.content }}
+            {% if form.content.errors %}
+                <div class="form-errors">
+                    <ul>
+                        {% for error in form.content.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            <small class="help-text">Write your amazing content here. Use paragraphs for better readability.</small>
+        </div>
+
+        <!-- Image Field -->
+        <div class="form-group">
+            <label for="{{ form.image.id_for_label }}">{{ form.image.label }}</label>
+            {{ form.image }}
+            {% if form.image.errors %}
+                <div class="form-errors">
+                    <ul>
+                        {% for error in form.image.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            <small class="help-text">Optional: Add a featured image for your post (JPG, PNG)</small>
+        </div>
+
+        <!-- Buttons -->
+        <div class="form-actions">
+            <button type="submit">
+                {% if 'Create' in title %}
+                    📝 Publish Post
+                {% else %}
+                    💾 Save Changes
+                {% endif %}
+            </button>
+            <a href="{% url 'home' %}">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+<!-- blog/templates/register.html -->
+<!-- Pure Django - No JavaScript -->
+{% comment %}
+This file continues below - it's a new template
+{% endcomment %}

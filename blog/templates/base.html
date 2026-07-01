@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}BlogHub{% endblock %}</title>
+</head>
+<body>
+    <nav style="background: #667eea; padding: 1rem; color: white;">
+        <a href="/" style="color: white; font-size: 1.5rem; font-weight: bold; text-decoration: none;">📝 BlogHub</a>
+        <span style="float: right;">
+            {% if user.is_authenticated %}
+                <a href="/post/new/" style="color: white; margin-right: 1rem;">Write</a>
+                <a href="/profile/{{ user.username }}/" style="color: white; margin-right: 1rem;">Profile</a>
+                <form method="POST" action="/logout/" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="background: none; border: none; color: white; cursor: pointer;">Logout</button>
+                </form>
+            {% else %}
+                <a href="/login/" style="color: white; margin-right: 1rem;">Login</a>
+                <a href="/register/" style="color: white;">Register</a>
+            {% endif %}
+        </span>
+    </nav>
+
+    <div style="max-width: 1200px; margin: 2rem auto; padding: 0 20px;">
+        {% if messages %}
+            {% for message in messages %}
+                <div style="padding: 1rem; margin-bottom: 1rem; background: #e8f5e9; border-left: 4px solid #2e7d32; color: #2e7d32;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
