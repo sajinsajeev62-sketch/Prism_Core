@@ -1,12 +1,77 @@
 <!-- blog/templates/base.html -->
 <!-- Pure Django - No JavaScript -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}BlogHub{% endblock %}</title>
+    <title>{% block title %}Prism Core{% endblock %}</title>
     <style>
+        body {
+    background: #fdfdfd;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: -1;
+    opacity: 0.35;
+    animation: floatGlow 12s ease-in-out infinite;
+}
+
+body::before {
+    width: 300px;
+    height: 300px;
+    background: #FFD54F;
+    top: 10%;
+    left: -100px;
+}
+
+body::after {
+    width: 400px;
+    height: 400px;
+    background: #FFC107;
+    bottom: 5%;
+    right: -150px;
+    animation-delay: 6s;
+}
+
+@keyframes floatGlow {
+    0% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-40px) scale(1.15);
+    }
+    100% {
+        transform: translateY(0) scale(1);
+    }
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.logo img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+}
+
+.logo span {
+    color: white;
+}
         * {
             margin: 0;
             padding: 0;
@@ -21,7 +86,7 @@
 
         /* Navigation */
         nav {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #17181b 0%, #0a0a0b 100%);
             padding: 1rem 0;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: sticky;
@@ -67,7 +132,7 @@
 
         nav button {
             background: white;
-            color: #667eea;
+            color: #050505;
             border: none;
             padding: 0.5rem 1rem;
             border-radius: 20px;
@@ -104,7 +169,7 @@
             background: white;
             border: none;
             border-radius: 0 20px 20px 0;
-            color: #667eea;
+            color: #0c0c0c;
             cursor: pointer;
             font-weight: bold;
         }
@@ -127,34 +192,34 @@
             margin-bottom: 1rem;
             border-radius: 5px;
             background: #e3f2fd;
-            color: #1565c0;
+            color: #b50000;
             border-left: 4px solid #1565c0;
         }
 
         .messages .success {
             background: #e8f5e9;
-            color: #2e7d32;
-            border-left-color: #2e7d32;
+            color: #016104;
+            border-left-color: #036708;
         }
 
         .messages .error {
             background: #ffebee;
-            color: #c62828;
-            border-left-color: #c62828;
+            color: #b60000;
+            border-left-color: #a60404;
         }
 
         .messages .info {
             background: #f3e5f5;
-            color: #6a1b9a;
-            border-left-color: #6a1b9a;
+            color: #050505;
+            border-left-color: #050505;
         }
 
         /* Buttons */
         .btn {
             display: inline-block;
             padding: 0.7rem 1.5rem;
-            background: #667eea;
-            color: white;
+            background: #ffffff;
+            color: #050505;
             text-decoration: none;
             border-radius: 5px;
             border: none;
@@ -164,7 +229,7 @@
         }
 
         .btn:hover {
-            background: #764ba2;
+            background: #ffffff;
         }
 
         .btn-secondary {
@@ -280,17 +345,23 @@
     <!-- Navigation -->
     <nav>
         <div class="container">
-            <a href="{% url 'home' %}" class="logo">📝 BlogHub</a>
+            {% load static %}
+
+<a href="{% url 'home' %}" class="logo">
+    <img src="{% static 'images/logo.png' %}" alt="BlogHub Logo">
+    <span>Prism core</span>
+</a>
 
             <div class="search-container">
                 <form method="GET" action="{% url 'search' %}">
                     <input type="text" name="q" placeholder="Search posts...">
-                    <button type="submit">🔍</button>
+                    <button type="submit">🔍︎</button>
                 </form>
             </div>
 
             <ul class="nav-links">
                 {% if user.is_authenticated %}
+                    <li><a href="{% url 'home' %}">Home</a></li>
                     <li><a href="{% url 'create-post' %}">Write</a></li>
                     <li><a href="{% url 'bookmarks' %}">Bookmarks</a></li>
                     <li><a href="{% url 'profile' user.username %}">Profile</a></li>
@@ -300,7 +371,7 @@
 <li>
     <form method="POST" action="{% url 'logout' %}" style="display: inline;">
         {% csrf_token %}
-        <button type="submit" style="background: #764ba2;">Logout</button>
+        <button type="submit" style="background: #fd0000;">Logout</button>
     </form>
 </li>
                 {% else %}
@@ -328,7 +399,9 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2024 BlogHub. A place for sharing thoughts and ideas. Pure Django + HTML + CSS</p>
+        <p style="color: #ffffff;">©Prism Core . A place for sharing thoughts and ideas.</p><br>
+        <p style="color: #ffffff;">Lets connect : <a href="https://www.linkedin.com/in/sajin-sajeev-8a1981214/" >Linkedin</a>&nbsp&nbsp<a href="https://github.com/sajinsajeev62-sketch" >Github</a></p>
+
     </footer>
 
     {% block extra_js %}{% endblock %}

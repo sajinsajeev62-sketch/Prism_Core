@@ -25,7 +25,7 @@ urlpatterns = [
     path('search/', views.search_posts, name='search'),
     
     # Profiles
-    path('profile/<str:username>/', views.user_profile, name='profile'),
     path('profile/edit/', views.edit_profile, name='edit-profile'),
+    path('profile/<str:username>/', views.user_profile, name='profile'),
     path('bookmarks/', views.my_bookmarks, name='bookmarks'),
 ]

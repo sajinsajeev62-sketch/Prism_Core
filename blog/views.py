@@ -58,7 +58,10 @@ def home(request):
     paginator = Paginator(posts, 6)
     page_number = request.GET.get('page')
     posts_page = paginator.get_page(page_number)
-    return render(request, 'home.html', {'posts': posts_page})
+    context = {
+        'hero_image_url': '/static/images/bg.png'
+    }
+    return render(request, 'home.html', {'posts': posts_page,'context':context})
 
 
 # ========== POSTS ==========
